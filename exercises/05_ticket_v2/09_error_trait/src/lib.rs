@@ -1,11 +1,40 @@
+use std::error::Error;
+use std::fmt::{Display, Formatter};
+
 // TODO: Implement `Debug`, `Display` and `Error` for the `TicketNewError` enum.
 //  When implementing `Display`, you may want to use the `write!` macro from Rust's standard library.
 //  The docs for the `std::fmt` module are a good place to start and look for examples:
 //  https://doc.rust-lang.org/std/fmt/index.html#write
-
+#[derive(Debug)]
 enum TicketNewError {
     TitleError(String),
     DescriptionError(String),
+}
+
+impl Display for TicketNewError {
+    
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        
+        match self {
+            TicketNewError::TitleError(message) => write!(f, "{}", message),
+            TicketNewError::DescriptionError(message) => write!(f, "{}", message)
+        }
+        
+    }
+    
+}
+
+impl Error for TicketNewError {
+    
+    fn description(&self) -> &str {
+        
+        match self {
+            TicketNewError::TitleError(message) => message,
+            TicketNewError::DescriptionError(message) => message
+        }
+        
+    }
+    
 }
 
 // TODO: `easy_ticket` should panic when the title is invalid, using the error message
@@ -13,7 +42,33 @@ enum TicketNewError {
 //   When the description is invalid, instead, it should use a default description:
 //   "Description not provided".
 fn easy_ticket(title: String, description: String, status: Status) -> Ticket {
-    todo!()
+    
+    if title.is_empty() {
+        
+        panic!("Title cannot be empty")
+        
+    }
+    
+    if title.len() > 50 { 
+        
+        panic!("Title cannot be longer than 50 bytes")
+    
+    }
+    
+    let mut description = description;
+    
+    if description.is_empty() || description.len() > 500 {
+        
+        description = "Description not provided".to_string();
+        
+    }
+    
+    Ticket {
+        title,
+        description,
+        status
+    }
+    
 }
 
 #[derive(Debug, PartialEq, Clone)]
