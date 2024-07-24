@@ -29,3 +29,9 @@ mod tests {
         assert_eq!(sum(&v), 15);
     }
 }
+
+fn sum(slice: &[u32]) -> u32 {
+    
+    slice.iter().sum()
+    
+}

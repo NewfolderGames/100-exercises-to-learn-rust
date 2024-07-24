@@ -2,6 +2,8 @@
 //  modifying the input in place.
 //  Does it need to take a `&mut String`? Does a `&mut [str]` work? Why or why not?
 
+use std::ascii::AsciiExt;
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -33,4 +35,10 @@ mod tests {
         lowercase(s.as_mut_str());
         assert_eq!(s, "hello, world!");
     }
+}
+
+fn lowercase(string: &mut str) {
+    
+    string.make_ascii_lowercase()
+    
 }
